@@ -182,7 +182,11 @@ int main (int argc,char *argv[])
     for (count=0;count<numofjoysticks;count++)
       {
       joy[count]=SDL_JoystickOpen(count);
+#ifdef SDL2
+      temp=SDL_JoystickName(joy[count]);
+#else
       temp=SDL_JoystickName(count);
+#endif
       strcpy(joystick[count].name,temp);
       joystick[count].numofbuttons=SDL_JoystickNumButtons(joy[count]);
       joystick[count].numofhats=SDL_JoystickNumHats(joy[count]);

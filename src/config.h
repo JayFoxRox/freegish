@@ -3,6 +3,7 @@
 
 #define DISABLE_AUDIO
 #define DISABLE_OGG
+#define SDL2
 
 #ifdef __linux__
  #define LINUX 1
