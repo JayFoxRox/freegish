@@ -32,6 +32,7 @@
 
 #ifdef XBOX
   #define chdir(...) 0 //FIXME: !!!
+  #define SDL_GL_SwapBuffers(...) assert(0)
 #endif
 
 #ifndef PATH_MAX
