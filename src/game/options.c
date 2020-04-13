@@ -767,6 +767,7 @@ void videooptionsmenu(void)
     windowinfo.fullscreen=fullscreen;
     windowinfo.bitsperpixel=bitsperpixel;
   
+#ifndef XBOX
     if (windowinfo.bitsperpixel==16)
       {
       SDL_GL_SetAttribute(SDL_GL_RED_SIZE,5);
@@ -786,6 +787,7 @@ void videooptionsmenu(void)
       SDL_SetVideoMode(windowinfo.resolutionx,windowinfo.resolutiony,windowinfo.bitsperpixel,SDL_OPENGL|SDL_FULLSCREEN);
     else
       SDL_SetVideoMode(windowinfo.resolutionx,windowinfo.resolutiony,windowinfo.bitsperpixel,SDL_OPENGL);
+#endif
 
     for (count=0;count<2048;count++)
       if (texture[count].sizex!=0)
