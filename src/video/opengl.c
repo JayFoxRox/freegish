@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../config.h"
 #include "../video/opengl.h"
 
-#ifdef WINDOWS
+#if defined(WINDOWS) && !defined(XBOX)
   #include <SDL.h>
 #endif
 
@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 _glext glext;
 
-#ifdef WINDOWS
+#if defined(WINDOWS) && !defined(XBOX)
 PFNGLACTIVETEXTUREARBPROC glActiveTextureARB=NULL;
 PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB=NULL;
 PFNGLMULTITEXCOORD2FARBPROC glMultiTexCoord2fARB=NULL;
@@ -46,7 +46,7 @@ void loadglextentions(void)
 
   glversion=(char *) glGetString(GL_VERSION);
   ext=(char *) glGetString(GL_EXTENSIONS);
-  #ifdef WINDOWS
+#if defined(WINDOWS) && !defined(XBOX)
   if (strstr(ext,"GL_ARB_multitexture")!=NULL || SDL_GL_GetProcAddress("glActiveTextureARB")!=NULL)
     {
     glActiveTextureARB=(void *) SDL_GL_GetProcAddress("glActiveTextureARB");
@@ -66,8 +66,7 @@ void loadglextentions(void)
     glMultiTexCoord4fARB=(void *) SDL_GL_GetProcAddress("glMultiTexCoord4f");
     glext.multitexture=1;
     }
-#endif
-#ifndef WINDOWS
+#else
   glext.multitexture=1;
 #endif
   if (strstr(ext,"GL_ARB_texture_env_dot3")!=NULL || (glversion[0]>='2' || glversion[2]>='3'))

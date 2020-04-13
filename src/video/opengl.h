@@ -34,7 +34,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #undef pi
 
 #include <GL/gl.h>
+#if !defined(XBOX)
 #include "../video/glext.h"
+#endif
 #endif
 
 #if defined(LINUX) || defined(__FreeBSD_kernel__) || defined(__GNU__)
@@ -44,7 +46,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void loadglextentions(void);
 
-#ifdef WINDOWS
+#if defined(WINDOWS) && !defined(XBOX)
 extern PFNGLACTIVETEXTUREARBPROC glActiveTextureARB;
 extern PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB;
 extern PFNGLMULTITEXCOORD2FARBPROC glMultiTexCoord2fARB;
