@@ -1,6 +1,9 @@
 #ifndef GISH_CONFIG_H
 #define GISH_CONFIG_H
 
+#define DISABLE_AUDIO
+#define DISABLE_OGG
+
 #ifdef __linux__
  #define LINUX 1
 #endif
