@@ -25,6 +25,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../sdl/video.h"
 
+#ifdef XBOX
+  #define SDL_OPENGL 0
+  #define SDL_FULLSCREEN 0
+#endif
+
 int numofsdlvideomodes;
 _sdlvideomode sdlvideomode[4096];
 
