@@ -30,6 +30,10 @@
   #define INLINE inline
 #endif
 
+#ifdef XBOX
+  #define chdir(...) 0 //FIXME: !!!
+#endif
+
 #ifndef PATH_MAX
 #define PATH_MAX 256
 #endif
