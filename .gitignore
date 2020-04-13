@@ -11,3 +11,9 @@ gish.vcproj.*
 build/
 freegish
 
+*.obj
+*.c.d
+*.lib
+*.exe
+*.iso
+bin/
