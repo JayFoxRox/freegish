@@ -39,6 +39,7 @@ void checksystemmessages(void)
 
   while (SDL_PollEvent(&event))
     {
+#ifndef XBOX
     if (event.type==SDL_ACTIVEEVENT)
       {
       if (event.active.state&SDL_APPACTIVE)
@@ -65,6 +66,7 @@ void checksystemmessages(void)
           windowinfo.minimized=1;
           }
       }
+#endif
     if (event.type==SDL_QUIT)
       windowinfo.shutdown=1;
     }
