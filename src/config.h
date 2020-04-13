@@ -12,6 +12,10 @@
   #define WINDOWS 1
 #endif
 
+#ifdef NXDK
+  #define XBOX 1
+#endif
+
 #ifdef __APPLE__
   #define MAC 1
 #endif
