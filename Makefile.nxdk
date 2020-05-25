@@ -64,6 +64,10 @@ SRCS += \
 	src/video/texture.c \
 	src/main.c
 
+include $(XGU_GL_DIR)/Makefile
+CFLAGS += $(XGU_GL_CFLAGS)
+SRCS += $(XGU_GL_SRCS)
+
 all_local: data all
 
 include $(NXDK_DIR)/Makefile
