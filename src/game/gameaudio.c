@@ -36,6 +36,7 @@ _sound sound[64];
 
 void soundsimulation(float position[3],float orientation[3][3])
   {
+#ifndef DISABLE_AUDIO
   int count;
   int state;
   float vec[3];
@@ -81,10 +82,12 @@ void soundsimulation(float position[3],float orientation[3][3])
       }
     count++;
     }
+#endif
   }
 
 void playsound(int buffernum,float position[3],float velocity[3],float volume,int looping,float pitch,int objectnum,int objectsoundnum)
   {
+#ifndef DISABLE_AUDIO
   int count,count2;
   float vec[3];
   //float intersectpoint[3];
@@ -169,10 +172,12 @@ void playsound(int buffernum,float position[3],float velocity[3],float volume,in
   object[objectnum].soundnum[objectsoundnum]=numofsounds;
 
   numofsounds++;
+#endif
   }
 
 void deletesound(int soundnum)
   {
+#ifndef DISABLE_AUDIO
   int count/*,count2*/;
   ALuint alnametemp;
 
@@ -204,4 +209,5 @@ void deletesound(int soundnum)
   for (count=0;count<4;count++)
   if (object[sound[numofsounds].objectnum].soundnum[count]==numofsounds)
     object[sound[numofsounds].objectnum].soundnum[count]=soundnum;
+#endif
   }

@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../game/options.h"
 #include "../sdl/endian.h"
 
+#ifndef DISABLE_AUDIO
 ALCcontext *alcontext;
 ALCdevice *aldevice;
 
@@ -40,19 +41,23 @@ int soundenabled;
 ALuint soundbuffer[64];
 int bufferloaded[64];
 
+#ifndef DISABLE_OGG
 OggVorbis_File oggstream[2];
 
 vorbis_info *vorbisinfo;
 vorbis_comment *vorbiscomment;
+#endif
 
 ALenum oggformat;
 char oggdata[OGGBUFFERSIZE];
 
 ALuint oggsource;
 ALuint oggbuffer[2];
+#endif
 
 void setupaudio(void)
   {
+#ifndef DISABLE_AUDIO
   int count;
   //ALsizei size,freq;
   //ALenum format;
@@ -122,10 +127,12 @@ void setupaudio(void)
     alGenSources(1,&sound[count].alname);
 
   //alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
+#endif
   }
 
 int updateogg(void)
   {
+#ifndef DISABLE_AUDIO
   int processed;
   ALuint buffernum;
   int active;
@@ -163,10 +170,14 @@ int updateogg(void)
     */
     }
   return(active);
+#else
+  return(1);
+#endif
   }
 
 int streamogg(int buffernum)
   {
+#ifndef DISABLE_OGG
   int size;
   int section;
   int result;
@@ -198,10 +209,14 @@ int streamogg(int buffernum)
   alBufferData(buffernum,oggformat,oggdata,size,vorbisinfo->rate);
 
   return(1);
+#else
+  return(0);
+#endif
   }
 
 void shutdownaudio(void)
   {
+#ifndef DISABLE_AUDIO
   alcontext=alcGetCurrentContext();
   aldevice=alcGetContextsDevice(alcontext);
   alcMakeContextCurrent(NULL);
@@ -209,10 +224,12 @@ void shutdownaudio(void)
   alcCloseDevice(aldevice);
 
   //ov_clear(&oggstream[0]);
+#endif
   }
 
 void loadwav(int buffernum,char *filename)
   {
+#ifndef DISABLE_AUDIO
   unsigned int count;
   SDL_AudioSpec wavspec;
   unsigned int wavlength;
@@ -245,5 +262,6 @@ void loadwav(int buffernum,char *filename)
       }
     SDL_FreeWAV(wavbuffer);
     }
+#endif
   }
 

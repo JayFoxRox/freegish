@@ -32,6 +32,7 @@ unsigned char prevkeyboard[323];
 
 void checkkeyboard(void)
   {
+#ifndef XBOX
   memcpy(prevkeyboard,keyboard,323);
 
   memcpy(keyboard,SDL_GetKeyState(NULL),323);
@@ -51,5 +52,6 @@ void checkkeyboard(void)
     keyboard[SCAN_UP]=1;
   if (keyboard[SCAN_NUMDOWN])
     keyboard[SCAN_DOWN]=1;
+#endif
   }
 

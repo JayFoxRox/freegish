@@ -21,6 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#ifndef DISABLE_AUDIO
 #ifdef MAC
   #include <OpenAL/al.h>
   #include <OpenAL/alc.h>
@@ -28,8 +29,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   #include <AL/al.h>
   #include <AL/alc.h>
 #endif
+#endif
 
+#ifndef DISABLE_OGG
 #include <vorbis/vorbisfile.h>
+#endif
 
 #define OGGBUFFERSIZE 4096*8
 
@@ -39,6 +43,7 @@ int streamogg(int buffernum);
 void shutdownaudio(void);
 void loadwav(int buffernum,char *filename);
 
+#ifndef DISABLE_AUDIO
 extern ALCcontext *alcontext;
 extern ALCdevice *aldevice;
 
@@ -46,15 +51,18 @@ extern int soundenabled;
 extern ALuint soundbuffer[64];
 extern int bufferloaded[64];
 
+#ifndef DISABLE_OGG
 extern OggVorbis_File oggstream[2];
 
 extern vorbis_info *vorbisinfo;
 extern vorbis_comment *vorbiscomment;
+#endif
 
 extern ALenum oggformat;
 extern char oggdata[OGGBUFFERSIZE];
 
 extern ALuint oggsource;
 extern ALuint oggbuffer[2];
+#endif
 
 #endif /* GISH_AUDIO_AUDIO_H */

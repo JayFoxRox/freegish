@@ -21,8 +21,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#include <stddef.h>
+#ifndef DISABLE_OGG
 #include <ogg/ogg.h>
 #include <vorbis/vorbisfile.h>
+#else
+#include <stdint.h>
+typedef int64_t ogg_int64_t;
+#endif
 
 void checkmusic(void);
 void loadoggs(void);
@@ -39,6 +45,8 @@ typedef struct
   } _oggmemoryfile;
 
 extern _oggmemoryfile oggmemoryfile[16];
+#ifndef DISABLE_OGG
 extern ov_callbacks vorbiscallbacks;
+#endif
 
 #endif /* GISH_GAME_MUSIC_H */

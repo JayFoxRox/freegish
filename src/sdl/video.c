@@ -30,6 +30,7 @@ _sdlvideomode sdlvideomode[4096];
 
 void listvideomodes(void)
   {
+#ifndef XBOX
   int count;
   SDL_Rect **sdlmode;
 
@@ -72,5 +73,12 @@ void listvideomodes(void)
       numofsdlvideomodes++;
       }
     }
+#else
+  numofsdlvideomodes=0;
+  sdlvideomode[numofsdlvideomodes].resolutionx=640;
+  sdlvideomode[numofsdlvideomodes].resolutiony=480;
+  sdlvideomode[numofsdlvideomodes].bitsperpixel=32;
+  numofsdlvideomodes++;
+#endif
   }
 

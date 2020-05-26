@@ -36,10 +36,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../sdl/file.h"
 
 _oggmemoryfile oggmemoryfile[16];
+#ifndef DISABLE_OGG
 ov_callbacks vorbiscallbacks;
+#endif
 
 void checkmusic(void)
   {
+#ifndef DISABLE_OGG
   unsigned int count;
   int count2;
   int queued;
@@ -131,10 +134,12 @@ void checkmusic(void)
     if (count2!=AL_PLAYING)
       alSourcePlay(oggsource);
     }
+#endif
   }
 
 void loadoggs(void)
   {
+#ifndef DISABLE_OGG
   //int count;
   int oggnum;
   int changeddir;
@@ -285,10 +290,12 @@ void loadoggs(void)
 
   if (changeddir==0)
     chdir("..");
+#endif
   }
 
 size_t vorbisread(void *ptr,size_t bytesize,size_t sizetoread,void *datasource)
   {
+#ifndef DISABLE_OGG
   int actualsizetoread;
   size_t spacetoeof;
   _oggmemoryfile *vorbisdata;
@@ -309,10 +316,14 @@ size_t vorbisread(void *ptr,size_t bytesize,size_t sizetoread,void *datasource)
     }
 
   return(actualsizetoread);
+#else
+  return 0;
+#endif
   }
 
 int vorbisseek(void *datasource,ogg_int64_t offset,int whence)
   {
+#ifndef DISABLE_OGG
   int spacetoeof;
   ogg_int64_t actualoffset;
   _oggmemoryfile *vorbisdata;
@@ -341,6 +352,7 @@ int vorbisseek(void *datasource,ogg_int64_t offset,int whence)
     {
     vorbisdata->dataread=vorbisdata->datasize+1;
     }
+#endif
   return(0);
   }
 

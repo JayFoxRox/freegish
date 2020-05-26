@@ -52,6 +52,7 @@ unsigned int rotint(unsigned int x,int rotnum)
 
 void launchwebpage(char *webpagename)
   {
+#ifndef XBOX
 #ifdef WINDOWS
   SDL_WM_IconifyWindow();
   ShellExecute(NULL,"open",webpagename,"","c:\\",SW_SHOWNORMAL);
@@ -80,5 +81,6 @@ void launchwebpage(char *webpagename)
   strcat(command, webpagename);
   SDL_WM_IconifyWindow();
   system((const char*)command);
+#endif
 #endif
   }

@@ -377,6 +377,7 @@ void renderobjectspecular(int objectnum)
 
   if (windowinfo.bitsperpixel!=32)
     return;
+#ifndef XBOX
   if (!glext.texture_env_dot3)
     return;
 
@@ -575,5 +576,6 @@ void renderobjectspecular(int objectnum)
 
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     }
+#endif
   }
 

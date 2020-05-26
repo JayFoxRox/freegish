@@ -43,7 +43,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <unistd.h>
 #endif
 
+#ifdef NXDK
+#include <hal/video.h>
+#include <hal/debug.h>
+#endif
+
+#ifndef XBOX
 const SDL_VideoInfo *sdlvideoinfo;
+#endif
 SDL_PixelFormat *sdlpixelformat;
 
 Uint8 iconmask[128]={
@@ -86,6 +93,13 @@ int main (int argc,char *argv[])
   int flags;
   const char *temp;
 
+#ifdef NXDK
+  XVideoSetMode(640, 480, 32, REFRESH_DEFAULT);
+  debugPrint("Booting Gish\n");
+  //FIXME: Alloc framebuffer
+  //FIXME: Set up logfile
+#endif
+
 #ifdef DATAPATH
   chdir(DATAPATH);
 #endif
@@ -106,6 +120,7 @@ int main (int argc,char *argv[])
     return 1;
     }
 
+#ifndef XBOX
   sdlvideoinfo=SDL_GetVideoInfo();
   sdlpixelformat=sdlvideoinfo->vfmt;
   if (sdlpixelformat->BitsPerPixel==16)
@@ -124,6 +139,7 @@ int main (int argc,char *argv[])
     if (strcmp("-nomusic",argv[count])==0)
       option.music=0;
     }
+#endif
 
   saveconfig();
 
@@ -131,6 +147,7 @@ int main (int argc,char *argv[])
 
   listvideomodes();
 
+#ifndef XBOX
   SDL_WM_SetCaption("FreeGish", NULL);
   SDL_WM_SetIcon(SDL_LoadBMP("freegish.bmp"),iconmask);
 
@@ -162,6 +179,7 @@ int main (int argc,char *argv[])
     fprintf(stderr, "Failed to initialize video:\n%s\n",SDL_GetError());
     return 1;
     }
+#endif
   loadglextentions();
 
   for (count=0;count<2048;count++)
@@ -176,7 +194,11 @@ int main (int argc,char *argv[])
     for (count=0;count<numofjoysticks;count++)
       {
       joy[count]=SDL_JoystickOpen(count);
+#ifdef SDL2
+      temp=SDL_JoystickName(joy[count]);
+#else
       temp=SDL_JoystickName(count);
+#endif
       strcpy(joystick[count].name,temp);
       joystick[count].numofbuttons=SDL_JoystickNumButtons(joy[count]);
       joystick[count].numofhats=SDL_JoystickNumHats(joy[count]);
@@ -202,7 +224,9 @@ int main (int argc,char *argv[])
     {
     notsupportedmenu();
 
+#ifndef XBOX
     SDL_WM_IconifyWindow();
+#endif
     SDL_Quit();
     return(0);
     }
@@ -219,7 +243,9 @@ int main (int argc,char *argv[])
   if (config.sound)
     shutdownaudio();
 
+#ifndef XBOX
   SDL_WM_IconifyWindow();
+#endif
 
   SDL_Quit();
 

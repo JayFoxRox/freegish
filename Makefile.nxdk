@@ -1,0 +1,91 @@
+NXDK_DIR = /home/fox/Data/Projects/XboxDev/nxdk
+
+XBE_TITLE = "Gish"
+GEN_XISO = Gish-Original_Xbox.iso
+
+CFLAGS = -Wall -Wpedantic -Isrc/xbox
+
+SRCS += \
+	src/audio/audio.c \
+	src/game/ai.c \
+	src/game/animation.c \
+	src/game/block.c \
+	src/game/boss.c \
+	src/game/config.c \
+	src/game/credits.c \
+	src/game/custom.c \
+	src/game/damage.c \
+	src/game/debug.c \
+	src/game/editor.c \
+	src/game/game.c \
+	src/game/gameaudio.c \
+	src/game/gamemenu.c \
+	src/game/gameobject.c \
+	src/game/gametexture.c \
+	src/game/high.c \
+	src/game/level.c \
+	src/game/lighting.c \
+	src/game/logic.c \
+	src/game/mainmenu.c \
+	src/game/mappack.c \
+	src/game/music.c \
+	src/game/objedit.c \
+	src/game/objfunc.c \
+	src/game/options.c \
+	src/game/physics.c \
+	src/game/player.c \
+	src/game/prerender.c \
+	src/game/random.c \
+	src/game/record.c \
+	src/game/render.c \
+	src/game/replay.c \
+	src/game/ropeedit.c \
+	src/game/setup.c \
+	src/game/socket.c \
+	src/game/sprite.c \
+	src/game/vsmode.c \
+	src/input/joystick.c \
+	src/input/keyboard.c \
+	src/input/mouse.c \
+	src/math/intersec.c \
+	src/math/vector.c \
+	src/menu/menu.c \
+	src/parser/parser.c \
+	src/physics/bond.c \
+	src/physics/object.c \
+	src/physics/particle.c \
+	src/sdl/endian.c \
+	src/sdl/event.c \
+	src/sdl/file.c \
+	src/sdl/video.c \
+	src/video/glfunc.c \
+	src/video/opengl.c \
+	src/video/text.c \
+	src/video/texture.c \
+	src/main.c
+
+all_local: data all
+
+include $(XGU_GL_DIR)/Makefile
+CFLAGS += $(XGU_GL_CFLAGS)
+SRCS += $(XGU_GL_SRCS)
+
+data: force
+	@mkdir -p $(OUTPUT_DIR)
+	@echo "Updating documentation"
+	@cp License.txt $(OUTPUT_DIR)/
+	@cp COPYING.txt $(OUTPUT_DIR)/
+	@echo "Updating data"
+	@cp -r animation/. $(OUTPUT_DIR)/animation
+	@cp -r level/. $(OUTPUT_DIR)/level
+	@cp -r sound/. $(OUTPUT_DIR)/sound
+	@cp -r texture/. $(OUTPUT_DIR)/texture
+
+isos:
+	@mkisofs -o iso9660.iso $(OUTPUT_DIR)/
+	@mkisofs -UDF -o udf.iso $(OUTPUT_DIR)/
+
+force:
+
+NXDK_SDL = y
+include $(NXDK_DIR)/Makefile

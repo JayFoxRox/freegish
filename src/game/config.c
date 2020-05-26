@@ -51,7 +51,7 @@ _config config;
 #define USERPATH(X) "%s/.freegish" X
 #endif
 #endif
-#ifdef WINDOWS
+#if defined(WINDOWS) && !defined(XBOX)
 #include <direct.h>
 #define MKDIR(PATHNAME) _mkdir(PATHNAME)
 #define USERENV "APPDATA"
@@ -64,6 +64,7 @@ _config config;
 
 char* userpath(char *result, char *subdir, char *file)
   {
+#if !defined(XBOX)
   struct stat st;
   char *env=getenv(USERENV);
 
@@ -106,6 +107,7 @@ char* userpath(char *result, char *subdir, char *file)
     else
       return result;
     }
+#endif
 
   fail:
 

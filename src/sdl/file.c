@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../config.h"
 
 #ifdef WINDOWS
-  #include <io.h>
+  #include <fileapi.h>
 #else
   #include <dirent.h>
   #include <sys/stat.h>
@@ -65,46 +65,52 @@ int checkfilespec(char *filespec,char *filename)
 void listfiles(char *path,char *filespec,char filelist[1024][32],int directories)
   {
 #ifdef WINDOWS
-  int count,count2;
-  int handle;
-  struct _finddata_t fileinfo;
+  int count;
+  BOOL count2;
+  HANDLE handle;
+  WIN32_FIND_DATAA fileinfo;
   size_t len;
 
   len=strlen(path);
   path[len]='/';
   strncpy(path+len+1,filespec,PATH_MAX-len-1);
   path[PATH_MAX-1] = '\0'; /* Safety first! */
-  handle=_findfirst(path,&fileinfo);
+  handle=FindFirstFileA(path,&fileinfo);
+
+  if (handle==INVALID_HANDLE_VALUE) {
+    count2=FALSE;
+  } else {
+    count2=TRUE;
+  }
 
   count=0;
-  count2=handle;
-  while (count2!=-1 && count<1024)
+  while (count2!=FALSE && count<1024)
     {
     if (!directories)
       {
-      if ((fileinfo.attrib&_A_SUBDIR)==0)
+      if ((fileinfo.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)==0)
         {
-        strncpy(filelist[count],fileinfo.name,32);
+        strncpy(filelist[count],fileinfo.cFileName,32);
         filelist[count][31]='\0'; /* Safety first! */
         count++;
         }
       }
     else
       {
-      if ((fileinfo.attrib&_A_SUBDIR)!=0)
-      if (fileinfo.name[0]!='.')
+      if ((fileinfo.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)!=0)
+      if (fileinfo.cFileName[0]!='.')
         {
-        strncpy(filelist[count],fileinfo.name,32);
+        strncpy(filelist[count],fileinfo.cFileName,32);
         filelist[count][31]='\0'; /* Safety first! */
         count++;
         }
       }
-    count2=_findnext(handle,&fileinfo);
+    count2=FindNextFileA(handle,&fileinfo);
     }
 
   filelist[count][0]=0;
 
-  _findclose(handle);
+  FindClose(handle);
 
   qsort(filelist,count,32,comparestrings);
 #else
