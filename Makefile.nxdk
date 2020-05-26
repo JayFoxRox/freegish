@@ -81,7 +81,9 @@ data: force
 	@cp -r sound/. $(OUTPUT_DIR)/sound
 	@cp -r texture/. $(OUTPUT_DIR)/texture
 
-include $(NXDK_DIR)/Makefile
+isos:
+	@mkisofs -o iso9660.iso $(OUTPUT_DIR)/
+	@mkisofs -UDF -o udf.iso $(OUTPUT_DIR)/
 
 force:
 
