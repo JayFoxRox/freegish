@@ -43,6 +43,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <unistd.h>
 #endif
 
+#ifdef NXDK
+#include <hal/video.h>
+#include <hal/debug.h>
+#endif
+
 #ifndef XBOX
 const SDL_VideoInfo *sdlvideoinfo;
 #endif
@@ -87,6 +92,13 @@ int main (int argc,char *argv[])
   int count;
   int flags;
   const char *temp;
+
+#ifdef NXDK
+  XVideoSetMode(640, 480, 32, REFRESH_DEFAULT);
+  debugPrint("Booting Gish\n");
+  //FIXME: Alloc framebuffer
+  //FIXME: Set up logfile
+#endif
 
 #ifdef DATAPATH
   chdir(DATAPATH);
