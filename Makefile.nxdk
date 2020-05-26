@@ -64,18 +64,26 @@ SRCS += \
 	src/video/texture.c \
 	src/main.c
 
+all_local: data all
+
 include $(XGU_GL_DIR)/Makefile
 CFLAGS += $(XGU_GL_CFLAGS)
 SRCS += $(XGU_GL_SRCS)
 
-all_local: data all
+data: force
+	@mkdir -p $(OUTPUT_DIR)
+	@echo "Updating documentation"
+	@cp License.txt $(OUTPUT_DIR)/
+	@cp COPYING.txt $(OUTPUT_DIR)/
+	@echo "Updating data"
+	@cp -r animation/. $(OUTPUT_DIR)/animation
+	@cp -r level/. $(OUTPUT_DIR)/level
+	@cp -r sound/. $(OUTPUT_DIR)/sound
+	@cp -r texture/. $(OUTPUT_DIR)/texture
 
 include $(NXDK_DIR)/Makefile
 
-data:
-	@mkdir -p $(OUTPUT_DIR)
-	cp License.txt $(OUTPUT_DIR)/
-	cp COPYING.txt $(OUTPUT_DIR)/
+force:
 
 NXDK_SDL = y
 include $(NXDK_DIR)/Makefile
